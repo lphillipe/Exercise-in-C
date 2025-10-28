@@ -15,7 +15,7 @@ int main(void)
 
     printf("Bytes lidos: %zu\n", bytes);
 
-    fclose(file);
+    
 
     int count = 0;
 
@@ -25,4 +25,6 @@ int main(void)
     }
 
     printf("Blocos lidos: %d\n", count);
+
+    fclose(file);
 }
