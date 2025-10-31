@@ -37,16 +37,34 @@ int main(void)
         if (header)
         {
             //  Se já havia JPEG sendo escrito, fechar arquivo anterior
+            if (found_jpeg)
+            {
+                fclose(img);
+            }
+            
+            // criar nome do novo arquivo
+            char filename[8];
+            sprintf(filename, "%03d.jpg", filecount);
+            filecount++;
 
-            // Criar nome do novo arquivo
-            // abrir novo arquivo
-            // marcar que começamos jpeg
-            // escrever primeiro bloco
+            // Abrir novo arquivo
+            img = fopen(filename, "wb");
+
+            // Marcar que começamos JPEG
+            found_jpeg = true;
+
+            // Escrever primeiro bloco
+
+            fwrite(buffer, 1, bytes, img);
         }
 
         else
         {
             // Se já começamos um JPEG, continuar escrevendo blocos nele
+            if (found_jpeg)
+            {
+                fwrite(buffer, 1, bytes, img);
+            }
         }
 
         if (bytes < 512)
@@ -54,8 +72,10 @@ int main(void)
         break;
         }
     }
+    if (img != NULL)
+    {
+        fclose(img);
+    }
     
     fclose(infile);
-                  
-
 }
